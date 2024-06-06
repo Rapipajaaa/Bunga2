@@ -31,7 +31,7 @@
             <tbody>
                 @foreach($transaksis as $transaksi)
                 <tr>
-                    <td>{{ $transaksi->id }}</td>
+                    <td>{{ $transaksi->id_transaksi }}</td>
                     <td>{{ $transaksi->nama_pel }}</td>
                     <td>{{ $transaksi->alamat }}</td>
                     <td>{{ $transaksi->telepon }}</td>

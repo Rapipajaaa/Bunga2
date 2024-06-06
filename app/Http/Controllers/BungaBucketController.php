@@ -140,7 +140,7 @@ class BungaBucketController extends Controller
         ->join("pelanggan", "pelanggan.id", "transaksi.id_pelanggan")
         ->join("bunga_bucket", "bunga_bucket.id", "detail_transaksi.id_bunga")
         ->get();
-        // dd($transaksis);
+        //return dd($transaksis);
         return view('HalamanTransaksi', compact('transaksis'));
     }
 }

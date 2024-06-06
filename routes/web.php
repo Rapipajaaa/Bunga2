@@ -43,5 +43,5 @@ Route::post('/bunga', [BungaBucketController::class, 'store'])->name('bunga.stor
 // Route::get('/dashboard', [BungaBucketController::class, 'index1'])->name('dashboard');
 Route::get('/halamanTransaksi', [BungaBucketController::class, 'index1'])->name('transaksi');
 
-Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+// Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 
