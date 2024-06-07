@@ -25,6 +25,7 @@
                     <th>Jumlah</th>
                     <th>Harga Satuan</th>
                     <th>Tanggal Transaksi</th>
+                    <th>Diskon</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -39,6 +40,7 @@
                     <td>{{ $transaksi->jumlah }}</td>
                     <td>{{ $transaksi->harga }}</td>
                     <td>{{ $transaksi->tanggal_transaksi }}</td>
+                    <td></td>
                     <td>
                     <a href="{{ route('transaksi.print', $transaksi->id_transaksi) }}" class="btn btn-primary btn-sm">Cetak</a>
                     </td>

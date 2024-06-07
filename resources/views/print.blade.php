@@ -62,6 +62,10 @@
                 <th>Tanggal Transaksi</th>
                 <td>{{ $transaksi->tanggal_transaksi }}</td>
             </tr>
+            <tr>
+                <th>Diskon</th>
+                <td></td>
+            </tr>
         </table>
         @endforeach
     </div>
