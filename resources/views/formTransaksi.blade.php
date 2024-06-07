@@ -9,9 +9,15 @@
 <body>
     <div class="container mt-5">
         <h2>Form Transaksi</h2>
+        
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        
         <form action="{{ route('transaksi.buy', $bunga[0]->id) }}" method="POST">
             @csrf
-            <input type="button" value="{{$bunga[0]->id}}" hidden name="id">
             <div class="form-group">
                 <label for="nama_pel">Nama Pelanggan</label>
                 <input type="text" class="form-control" id="nama_pel" name="nama_pel" placeholder="Masukkan Nama Pelanggan" required>
@@ -32,8 +38,11 @@
                 <label for="harga">Harga</label>
                 <input type="text" class="form-control" id="harga" name="harga" value="{{ $bunga[0]->harga }}" readonly>
             </div>
+            <div class="form-group">
+                <label for="jumlah">Jumlah Beli</label>
+                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan Jumlah Beli" required min="1">
+            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-        
             <a href="{{ route('dashboard') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>

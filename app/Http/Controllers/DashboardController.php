@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\BungaBucket;
+use App\Models\Saldo;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -26,6 +27,7 @@ class DashboardController extends Controller
         
         // Ambil semua bunga yang stoknya 0
         $bungaTidakTersedia = BungaBucket::where('stok', 0)->get();
-        return view('dashboard', compact('bungaTersedia','bungaTidakTersedia'));
+        $saldo = Saldo::first();
+        return view('dashboard', compact('bungaTersedia','bungaTidakTersedia', 'saldo'));
     }
 }

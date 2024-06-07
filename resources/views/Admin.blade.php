@@ -53,6 +53,7 @@
                                     <th>Deskripsi</th>
                                     <th>Harga</th>
                                     <th>Stok</th>
+                                    <th>Gambar</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -63,6 +64,12 @@
                                     <td>{{ $item->deskripsi }}</td>
                                     <td>{{ $item->harga }}</td>
                                     <td>{{ $item->stok }}</td>
+                                    <td>@if($item->image)
+                                        <img src="{{ '/storage/'.$item->image }}" width="100" height="50%" alt="Image">
+                                         @else
+                                         Belum Dimasukkan
+                                         @endif
+                                    </td>     
                                     <td>
                                         <a href="{{ route('bunga.edit', $item->id) }}" class="btn btn-warning">Update</a>
                                         <form action="{{ route('bunga.destroy', $item->id) }}" method="POST" style="display:inline-block;">

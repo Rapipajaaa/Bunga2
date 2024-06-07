@@ -13,23 +13,17 @@
             <!-- Content -->
             <div class="col">
                 <h1 class="text-center mt-3">Toko Bunga Dashboard</h1>
-
-                <!-- Kotak Saldo -->
-                <div class="container mt-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Saldo</h5>
-                            <p class="card-text">Rp 100.000</p>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Tambahkan input pencarian di atas tabel -->
                 <div class="container mt-3">
                     <input type="text" id="searchInput" class="form-control" placeholder="Cari nama bunga..."><br>
                     <a href="{{ route('bunga.index') }}" class="btn btn-secondary">Admin</a>
                     <a href="{{ route('transaksi.index') }}" class="btn btn-secondary">Transaksi</a> <!-- Link ke halaman transaksi -->
                 </div>
+                @if (session('error'))
+            <div class="alert alert-success">
+                {{ session('error') }}
+            </div>
+        @endif
 
                 <div class="container mt-3">
                     <div class="table-responsive">

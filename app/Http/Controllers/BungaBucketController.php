@@ -31,26 +31,32 @@ class BungaBucketController extends Controller
 
     // Method untuk menyimpan data bunga baru
     public function store(Request $request)
-    {
-        // Validasi data
-        $request->validate([
-            'nama_bunga' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'harga' => 'required|numeric',
-            'stok' => 'required|integer',
-        ]);
+{
+    // Validasi data
+    $request->validate([
+        'nama_bunga' => 'required|string|max:255',
+        'deskripsi' => 'nullable|string',
+        'harga' => 'required|numeric',
+        'stok' => 'required|integer',
+        //'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        // Simpan data ke database
-        BungaBucket::create([
-            'nama_bunga' => $request->nama_bunga,
-            'deskripsi' => $request->deskripsi,
-            'harga' => $request->harga,
-            'stok' => $request->stok,
-        ]);
+    // Prepare data
+    $input = $request->all();
 
-        // Redirect ke halaman dashboard dengan pesan sukses
-        return redirect('/')->with('success', 'Bunga berhasil ditambahkan');
+    // Handle image upload
+    if ($image = $request->file('image')) {
+        $path = $request->file('image')->store('storage', 'public');
+        $input['image'] = $path;
     }
+
+    // Simpan data ke database
+    BungaBucket::create($input);
+
+    // Redirect ke halaman dashboard dengan pesan sukses
+    return redirect('/')->with('success', 'Bunga berhasil ditambahkan');
+}
+
 
     public function edit($id)
     {
@@ -59,25 +65,45 @@ class BungaBucketController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $bunga = BungaBucket::findOrFail($id);
-        $bunga->nama_bunga = $request->nama_bunga;
-        $bunga->deskripsi = $request->deskripsi;
-        $bunga->harga = $request->harga;
-        $bunga->stok = $request->stok;
-        $bunga->save();
+{
+    // Validasi data
+    $request->validate([
+        'nama_bunga' => 'required|string|max:255',
+        'deskripsi' => 'nullable|string',
+        'harga' => 'required|numeric',
+        'stok' => 'required|integer',
+        //'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        return redirect('/')->with('success', 'Bunga berhasil diedit');
+    $bunga = BungaBucket::findOrFail($id);
+
+    // Prepare data
+    $input = $request->all();
+
+    // Handle image upload
+    if ($image = $request->file('image')) {
+        $path = $request->file('image')->store('storage', 'public');
+        $input['image'] = $path;
+    } else {
+        $input['image'] = $bunga->image; // Retain the old image if no new image is uploaded
     }
 
-    public function destroy($id)
-    {
-        $bunga = BungaBucket::find($id);
+    // Update data in the database
+    $bunga->update($input);
 
-        if ($bunga) {
-            $bunga->delete();
-            return redirect('/')->with('success', 'Sudah Dihapus');
-        }
+    // Redirect ke halaman dashboard dengan pesan sukses
+    return redirect('/')->with('success', 'Bunga berhasil diedit');
+}
+
+
+        public function destroy($id)
+        {
+            $bunga = BungaBucket::find($id);
+
+            if ($bunga) {
+                $bunga->delete();
+                return redirect('/')->with('success', 'Sudah Dihapus');
+            }
     }
 
     public function showTransactionForm($id)
@@ -92,12 +118,14 @@ class BungaBucketController extends Controller
             'nama_pel' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'telepon' => 'required|string|max:15',
+            'jumlah' => 'required|integer|min:1',
         ]);
 
         $bunga = BungaBucket::findOrFail($id);
+        $jumlahBeli = $request->input('jumlah');
 
-        if ($bunga->stok > 0) {
-            $bunga->stok -= 1;
+        if ($bunga->stok >= $jumlahBeli) {
+            $bunga->stok -= $jumlahBeli;
             $bunga->save();
 
             $pelanggan = Pelanggan::create([
@@ -106,29 +134,31 @@ class BungaBucketController extends Controller
                 'telepon' => $request->input('telepon'),
             ]);
 
+            $totalHarga = $bunga->harga * $jumlahBeli;
+
             $transaksi = Transaksi::create([
                 'id_pelanggan' => $pelanggan->id,
                 'id_diskon' => null,
                 'tanggal_transaksi' => now(),
-                'total_harga' => $bunga->harga,
+                'total_harga' => $totalHarga,
             ]);
 
             DetailTransaksi::create([
                 'id_transaksi' => $transaksi->id,
                 'id_bunga' => $bunga->id,
-                'jumlah' => 1,
-                'harga' => $bunga->harga,
+                'jumlah' => $jumlahBeli,
+                'harga' => $totalHarga,
             ]);
 
             Invoice::create([
-                'id_transaksi'=>$transaksi->id,
-                'tanggal_invoice'=> now(),
-                'total_harga'=> $bunga->harga,
+                'id_transaksi' => $transaksi->id,
+                'tanggal_invoice' => now(),
+                'total_harga' => $totalHarga,
             ]);
 
             return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil.');
         } else {
-            return redirect()->route('dashboard')->with('error', 'Stok habis.');
+            return redirect()->route('dashboard')->with('error', 'Stok tidak mencukupi.');
         }
     }
 

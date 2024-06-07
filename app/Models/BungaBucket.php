@@ -14,6 +14,7 @@ class BungaBucket extends Model
         'deskripsi',
         'harga',
         'stok',
+        'image',
     ];
 
     public function transaksi()

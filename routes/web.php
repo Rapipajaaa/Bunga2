@@ -5,6 +5,7 @@ use App\Models\BungaBucket;
 use App\Http\Controllers\BungaBucketController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\SaldoController;
 
 
 
@@ -46,3 +47,5 @@ Route::get('/halamanTransaksi', [BungaBucketController::class, 'index1'])->name(
 // Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 
 Route::get('/transaksi/print/{id}', [TransaksiController::class, 'cetak'])->name('transaksi.print');
+
+Route::get('/dashboard', [SaldoController::class, 'index']);

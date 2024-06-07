@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->decimal('harga', 10, 2);
             $table->integer('stok');
+            $table->string('image')->nullable(); // Column for storing image file name or path
             $table->timestamps();
         });
     }

@@ -23,7 +23,7 @@
                     <th>No Telp</th>
                     <th>Nama Bunga</th>
                     <th>Jumlah</th>
-                    <th>Harga</th>
+                    <th>Harga Satuan</th>
                     <th>Tanggal Transaksi</th>
                     <th>Action</th>
                 </tr>

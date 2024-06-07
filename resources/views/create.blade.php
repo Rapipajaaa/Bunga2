@@ -55,7 +55,13 @@
                             <td><label for="stock" class="form-label">Stok</label></td>
                             <td>
                                 <input type="number" class="form-control" id="stock" name="stok" placeholder="Masukkan jumlah stok" required>
-                            </td>
+                            </td>   
+                        </tr>
+                        <tr>
+                        <td><label for="Gambar" class="form-label">Gambar</label></td>
+                        <td>
+                            <input type="file" name="image" class="form-control">
+                        </td>
                         </tr>
                     </tbody>
                 </table>
