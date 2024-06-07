@@ -27,7 +27,6 @@ class DashboardController extends Controller
         
         // Ambil semua bunga yang stoknya 0
         $bungaTidakTersedia = BungaBucket::where('stok', 0)->get();
-        $saldo = Saldo::first();
-        return view('dashboard', compact('bungaTersedia','bungaTidakTersedia', 'saldo'));
+        return view('dashboard', compact('bungaTersedia','bungaTidakTersedia'));
     }
 }
