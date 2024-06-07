@@ -28,8 +28,8 @@
                 <label for="stok">Stok</label>
                 <input type="number" class="form-control" id="stok" name="stok" value="{{ $bunga->stok }}" required>
             </div>
-            <button type="submit" class="btn btn-primary">Update Data</button>
-            <a href="{{ route('bunga.index') }}" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-primary"  onclick="return confirm('Apakah Anda yakin Data Yang mau di update sudah benar?')">Update Data</button>
+            <a href="{{ route('bunga.index') }}" class="btn btn-secondary" onclick="return confirm('Apakah Anda yakin ingin kembali?')">Back</a>
         </form>
     </div>
 </body>

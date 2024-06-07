@@ -34,7 +34,16 @@
             <!-- Content -->
             <div class="col">
                 <h1 class="text-center mt-3">Toko Bunga Admin</h1>
-
+                @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
                 <!-- Tambahkan input pencarian di atas tabel -->
                 <div class="container mt-3">
                     <div class="d-flex justify-content-between">
@@ -53,7 +62,7 @@
                                     <th>Deskripsi</th>
                                     <th>Harga</th>
                                     <th>Stok</th>
-                                    <th>Gambar</th>
+                                    <!-- <th>Gambar</th> -->
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -64,12 +73,12 @@
                                     <td>{{ $item->deskripsi }}</td>
                                     <td>{{ $item->harga }}</td>
                                     <td>{{ $item->stok }}</td>
-                                    <td>@if($item->image)
+                                    <!-- <td>@if($item->image)
                                         <img src="{{ '/storage/'.$item->image }}" width="100" height="50%" alt="Image">
                                          @else
                                          Belum Dimasukkan
                                          @endif
-                                    </td>     
+                                    </td>      -->
                                     <td>
                                         <a href="{{ route('bunga.edit', $item->id) }}" class="btn btn-warning">Update</a>
                                         <form action="{{ route('bunga.destroy', $item->id) }}" method="POST" style="display:inline-block;">

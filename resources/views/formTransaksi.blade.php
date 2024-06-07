@@ -16,7 +16,7 @@
             </div>
         @endif
         
-        <form action="{{ route('transaksi.buy', $bunga[0]->id) }}" method="POST">
+        <form id="transaksiForm" action="{{ route('transaksi.buy', $bunga[0]->id) }}" method="POST">
             @csrf
             <div class="form-group">
                 <label for="nama_pel">Nama Pelanggan</label>
@@ -42,7 +42,7 @@
                 <label for="jumlah">Jumlah Beli</label>
                 <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan Jumlah Beli" required min="1">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah Anda yakin Datanya sudah Benar?')">Submit</button>
             <a href="{{ route('dashboard') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>
