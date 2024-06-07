@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
-    public function cetak(Request $req)
+    public function cetak($id)
     {
         $transaksis = DB::table("transaksi")
         ->join("detail_transaksi", "detail_transaksi.id_transaksi", "transaksi.id")
