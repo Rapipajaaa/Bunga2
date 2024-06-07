@@ -55,7 +55,7 @@
                 <td>{{ $transaksi->jumlah }}</td>
             </tr>
             <tr>
-                <th>Harga</th>
+                <th>Harga Satuan</th>
                 <td>{{ $transaksi->harga }}</td>
             </tr>
             <tr>
