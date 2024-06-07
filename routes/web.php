@@ -38,10 +38,11 @@ Route::post('/buy/{id}', [BungaBucketController::class, 'processTransaction'])->
 Route::get('/transaksi', [BungaBucketController::class, 'indexTransaksi'])->name('transaksi.index');
 
 
-Route::get('/admin', [BungaBucketController::class, 'index'])->name('bunga.index');
-Route::post('/bunga', [BungaBucketController::class, 'store'])->name('bunga.store');
+// Route::get('/admin', [BungaBucketController::class, 'index'])->name('bunga.index');
+//Route::post('/bunga', [BungaBucketController::class, 'store'])->name('bunga.store');
 // Route::get('/dashboard', [BungaBucketController::class, 'index1'])->name('dashboard');
 Route::get('/halamanTransaksi', [BungaBucketController::class, 'index1'])->name('transaksi');
 
 // Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
 
+Route::get('/transaksi/print/{id}', [TransaksiController::class, 'cetak'])->name('transaksi.print');

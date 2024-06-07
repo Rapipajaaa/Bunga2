@@ -40,7 +40,7 @@
                     <td>{{ $transaksi->harga }}</td>
                     <td>{{ $transaksi->tanggal_transaksi }}</td>
                     <td>
-                    
+                    <a href="{{ route('transaksi.print', $transaksi->id_transaksi) }}" class="btn btn-primary btn-sm">Cetak</a>
                     </td>
                 </tr>
                 @endforeach

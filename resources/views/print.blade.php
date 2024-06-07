@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cetak Transaksi - {{ $transaksi->id }}</title>
+    <title>Cetak Transaksi</title>
     <style>
         /* Gaya CSS khusus untuk pencetakan PDF */
         body {
@@ -27,11 +27,12 @@
 </head>
 <body>
     <div class="container">
-        <h2>Transaksi Detail - {{ $transaksi->id }}</h2>
+        <h2>Transaksi Detail</h2>
+        @foreach ($transaksis as $transaksi )
         <table class="table table-bordered">
             <tr>
                 <th>ID Transaksi</th>
-                <td>{{ $transaksi->id }}</td>
+                <td>{{ $transaksi->id_transaksi }}</td>
             </tr>
             <tr>
                 <th>Nama Pelanggan</th>
@@ -62,6 +63,8 @@
                 <td>{{ $transaksi->tanggal_transaksi }}</td>
             </tr>
         </table>
+        @endforeach
+        
     </div>
 </body>
 </html>
