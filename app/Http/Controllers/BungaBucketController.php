@@ -113,54 +113,67 @@ class BungaBucketController extends Controller
     }
 
     public function processTransaction($id, Request $request)
-    {
-        $request->validate([
-            'nama_pel' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-            'telepon' => 'required|string|max:15',
-            'jumlah' => 'required|integer|min:1',
+{
+    $request->validate([
+        'nama_pel' => 'required|string|max:255',
+        'alamat' => 'required|string|max:255',
+        'telepon' => 'required|string|max:15',
+        'jumlah' => 'required|integer|min:1',
+    ]);
+
+    $bunga = BungaBucket::findOrFail($id);
+    $jumlahBeli = $request->input('jumlah');
+
+    if ($bunga->stok >= $jumlahBeli) {
+        $bunga->stok -= $jumlahBeli;
+        $bunga->save();
+
+        $pelanggan = Pelanggan::create([
+            'nama_pel' => $request->input('nama_pel'),
+            'alamat' => $request->input('alamat'),
+            'telepon' => $request->input('telepon'),
         ]);
 
-        $bunga = BungaBucket::findOrFail($id);
-        $jumlahBeli = $request->input('jumlah');
+        $hargaAwal = $bunga->harga;
+        $totalHarga = $hargaAwal * $jumlahBeli;
+        $diskon = 0;
 
-        if ($bunga->stok >= $jumlahBeli) {
-            $bunga->stok -= $jumlahBeli;
-            $bunga->save();
-
-            $pelanggan = Pelanggan::create([
-                'nama_pel' => $request->input('nama_pel'),
-                'alamat' => $request->input('alamat'),
-                'telepon' => $request->input('telepon'),
-            ]);
-
-            $totalHarga = $bunga->harga * $jumlahBeli;
-
-            $transaksi = Transaksi::create([
-                'id_pelanggan' => $pelanggan->id,
-                'id_diskon' => null,
-                'tanggal_transaksi' => now(),
-                'total_harga' => $totalHarga,
-            ]);
-
-            DetailTransaksi::create([
-                'id_transaksi' => $transaksi->id,
-                'id_bunga' => $bunga->id,
-                'jumlah' => $jumlahBeli,
-                'harga' => $totalHarga,
-            ]);
-
-            Invoice::create([
-                'id_transaksi' => $transaksi->id,
-                'tanggal_invoice' => now(),
-                'total_harga' => $totalHarga,
-            ]);
-
-            return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil.');
-        } else {
-            return redirect()->route('dashboard')->with('error', 'Stok tidak mencukupi.');
+        // Hitung diskon
+        if ($jumlahBeli >= 10) {
+            $diskon = 0.10 * $totalHarga;
+        } elseif ($jumlahBeli >= 5) {
+            $diskon = 0.05 * $totalHarga;
         }
+
+        $totalHargaAkhir = $totalHarga - $diskon;
+
+        $transaksi = Transaksi::create([
+            'id_pelanggan' => $pelanggan->id,
+            'id_diskon' => null,
+            'tanggal_transaksi' => now(),
+            'total_harga' => $totalHargaAkhir,
+        ]);
+
+        DetailTransaksi::create([
+            'id_transaksi' => $transaksi->id,
+            'id_bunga' => $bunga->id,
+            'jumlah' => $jumlahBeli,
+            'harga' => $hargaAwal,
+            'totalHarga' => $totalHargaAkhir,
+        ]);
+
+        Invoice::create([
+            'id_transaksi' => $transaksi->id,
+            'tanggal_invoice' => now(),
+            'total_harga' => $totalHargaAkhir,
+        ]);
+
+        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil.');
+    } else {
+        return redirect()->route('dashboard')->with('error', 'Stok tidak mencukupi.');
     }
+}
+
 
     public function indexTransaksi()
     {

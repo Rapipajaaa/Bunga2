@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Cetak Transaksi</title>
     <style>
-        /* Gaya CSS khusus untuk pencetakan PDF */
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
@@ -64,7 +63,19 @@
             </tr>
             <tr>
                 <th>Diskon</th>
-                <td></td>
+                <td>
+                    @if ($transaksi->jumlah >= 10)
+                        10%
+                    @elseif ($transaksi->jumlah >= 5)
+                        5%
+                    @else
+                        0%
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <th>Total Harga</th>
+                <td>{{ $transaksi->total_harga }}</td>
             </tr>
         </table>
         @endforeach

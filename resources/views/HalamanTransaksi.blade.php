@@ -14,6 +14,11 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -26,13 +31,14 @@
                     <th>Harga Satuan</th>
                     <th>Tanggal Transaksi</th>
                     <th>Diskon</th>
+                    <th>Total Harga</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($transaksis as $transaksi)
                 <tr>
-                    <td>{{ $transaksi->id_transaksi }}</td>
+                    <td>{{ $transaksi->id }}</td>
                     <td>{{ $transaksi->nama_pel }}</td>
                     <td>{{ $transaksi->alamat }}</td>
                     <td>{{ $transaksi->telepon }}</td>
@@ -40,9 +46,18 @@
                     <td>{{ $transaksi->jumlah }}</td>
                     <td>{{ $transaksi->harga }}</td>
                     <td>{{ $transaksi->tanggal_transaksi }}</td>
-                    <td></td>
                     <td>
-                    <a href="{{ route('transaksi.print', $transaksi->id_transaksi) }}" class="btn btn-primary btn-sm">Cetak</a>
+                        @if ($transaksi->jumlah >= 10)
+                            10%
+                        @elseif ($transaksi->jumlah >= 5)
+                            5%
+                        @else
+                            0%
+                        @endif
+                    </td>
+                    <td>{{ $transaksi->total_harga }}</td>
+                    <td>
+                        <a href="{{ route('transaksi.print', $transaksi->id) }}" class="btn btn-primary btn-sm">Cetak</a>
                     </td>
                 </tr>
                 @endforeach
